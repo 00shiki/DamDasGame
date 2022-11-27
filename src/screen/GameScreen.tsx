@@ -1,31 +1,23 @@
 import React from "react";
 import { View, Text } from "react-native";
+import Board from "../components/Board";
+import { point } from "../model/Point";
 
-class Point {
-  neighbor: Array<Point>; // Neighboring points
-  isAnswered: boolean; // point state
-
-  constructor(neighbor: Array<Point>, isAnswered: boolean) {
-    this.neighbor = neighbor;
-    this.isAnswered = isAnswered;
-  }
-}
-
-const p1: Point = new Point([], false);
-const p2: Point = new Point([], false);
-const p3: Point = new Point([], false);
-const p4: Point = new Point([], false);
-const p5: Point = new Point([], false);
-const p6: Point = new Point([], false);
-const p7: Point = new Point([], false);
-const p8: Point = new Point([], false);
-const p9: Point = new Point([], false);
-const p10: Point = new Point([], false);
-const p11: Point = new Point([], false);
-const p12: Point = new Point([], false);
-const p13: Point = new Point([], false);
-const p14: Point = new Point([], false);
-const p15: Point = new Point([], false);
+const p1: point = new point([], false);
+const p2: point = new point([], false);
+const p3: point = new point([], false);
+const p4: point = new point([], false);
+const p5: point = new point([], false);
+const p6: point = new point([], false);
+const p7: point = new point([], false);
+const p8: point = new point([], false);
+const p9: point = new point([], false);
+const p10: point = new point([], false);
+const p11: point = new point([], false);
+const p12: point = new point([], false);
+const p13: point = new point([], false);
+const p14: point = new point([], false);
+const p15: point = new point([], false);
 
 p1.neighbor = [p2, p5];
 p2.neighbor = [p1, p3, p5];
@@ -46,7 +38,7 @@ p15.neighbor = [p11, p14];
 const GameScreen = () => {
   return (
     <View>
-      <Text>ini game screen</Text>
+      <Board points={[]} />
     </View>
   );
 };
