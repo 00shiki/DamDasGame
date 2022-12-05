@@ -31,15 +31,15 @@ const p15: point = new point([], false, 'bot');
 p1.neighbor = [p2, p5];
 p2.neighbor = [p1, p3, p5];
 p3.neighbor = [p2, p5];
-p4.neighbor = [p5, p7, p8];
-p5.neighbor = [p1, p2, p3, p4, p6, p8];
-p6.neighbor = [p5, p8, p9];
-p7.neighbor = [p4, p8, p10];
+p4.neighbor = [p5, p7];
+p5.neighbor = [p1, p2, p3, p4, p6, p7, p8, p9];
+p6.neighbor = [p5, p9];
+p7.neighbor = [p4, p5, p8, p10, p11];
 p8.neighbor = [p4, p5, p6, p7, p9, p10, p11, p12];
-p9.neighbor = [p6, p8, p12];
-p10.neighbor = [p7, p8, p11];
-p11.neighbor = [p10, p12, p13, p14, p15];
-p12.neighbor = [p8, p9, p11];
+p9.neighbor = [p5, p6, p8, p11, p12];
+p10.neighbor = [p7, p11];
+p11.neighbor = [p7, p8, p9, p10, p12, p13, p14, p15];
+p12.neighbor = [p9, p11];
 p13.neighbor = [p11, p14];
 p14.neighbor = [p11, p13, p15];
 p15.neighbor = [p11, p14];
@@ -54,33 +54,26 @@ const points = [p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15
 // const bot3: pawn = new pawn(15, false);
 
 // const player = [player1, player2, player3];
-// const bot = [bot1, bot2, bot3];
+const bot = [p13, p14, p15];
 
 function getRandomInt(max: number) {
   return Math.floor(Math.random() * max);
 }
 
 
-// const botMove = () => {
-//   var moved = bot[getRandomInt(3)];
-//   const start = moved.position;
-//   var moveInto = points[start].neighbor[0];
-//   while (moveInto.isOccupied != 'no') {
-//     const n = (points[start].neighbor).length;
-//     moveInto = points[start].neighbor[getRandomInt(n)];
-//   }
-//   points[start - 1].isOccupied = 'no';
-//   moveInto.isOccupied = 'bot';
-//   // Assign position baru
-// }
-
-const pawnClick = () => {
-  //Ambil posisi pawn yang diklik
-}
-
-const pointClick = () => {
-  // Kalo belom kejawab, buka soal
-  // Kalo udah kejawab, assign pos ke point yang diclick
+function botMove () {
+  var moved = bot[0];
+  var moveInto = moved.neighbor[0];
+  while (moveInto.isOccupied != 'no') {
+    const n = (moved.neighbor).length;
+    moveInto = moved.neighbor[getRandomInt(n)];
+  }
+  moved.isOccupied = 'no';
+  moveInto.isOccupied = 'bot';
+  bot.shift();
+  bot.push(moveInto);
+  moved = p0;
+  moveInto = p0;
 }
 
 const place = [
@@ -187,6 +180,7 @@ const GameScreen = () => {
           selected.isOccupied = 'no';
           x.isOccupied = 'player';
           setSelected(p0);
+          botMove();
         }
       } else {
         Alert.alert(
@@ -202,10 +196,12 @@ const GameScreen = () => {
     if (option == soal[x].ans) {
       selected.isOccupied = 'no';
       movedTo.isOccupied = 'player';
+      movedTo.isAnswered = true;
       setSelected(p0);
       setMovedTo(p0);
       setVisible(false);
-    } else { setVisible(false) }
+      botMove();
+    } else { setVisible(false); botMove(); }
   }
 
 

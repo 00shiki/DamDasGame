@@ -3,19 +3,18 @@ import { StyleSheet } from 'react-native';
 const styles = StyleSheet.create({
     Point: {
         backgroundColor: '#FFFFFF',
-        width: 20,
-        height: 20,
+        width: 30,
+        height: 30,
     },
     Player: {
         backgroundColor: '#FF0000',
-        width: 20,
-        height: 20,
-        borderRadius: radius(20),
+        width: 30,
+        height: 30,
     },
     Bot: {
         backgroundColor: '#0000FF',
-        width: 20,
-        height: 20,
+        width: 30,
+        height: 30,
     },
     PlayerWindow: {
         minHeight: 65,
