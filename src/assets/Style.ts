@@ -7,12 +7,12 @@ const styles = StyleSheet.create({
         height: 30,
     },
     Player: {
-        backgroundColor: '#FF0000',
+        backgroundColor: '#0000FF',
         width: 30,
         height: 30,
     },
     Bot: {
-        backgroundColor: '#0000FF',
+        backgroundColor: '#FF0000',
         width: 30,
         height: 30,
     },
@@ -26,6 +26,56 @@ const styles = StyleSheet.create({
         fontWeight: '600',
         fontStyle: 'italic'
     },
+    Diff: {
+        fontSize: 40,
+        textAlignVertical: 'center',
+        fontWeight: '600',
+        fontStyle: 'italic',
+        textAlign: 'center',
+        color: '#220055',
+        borderColor: '#000000',
+        textShadowColor: '#000000',
+        textShadowOffset: {width: 4, height: 2},
+    },
+    Easy:{
+        minHeight: 65,
+        fontSize: 40,
+        textAlignVertical: 'center',
+        fontWeight: '600',
+        fontStyle: 'italic',
+        textAlign: 'center',
+        color: '#ffffff',
+        backgroundColor: '#0000f0',
+        borderColor: '#000000',
+        borderRadius: 20,
+        borderWidth: 2,
+    },
+    Normal:{
+        minHeight: 65,
+        fontSize: 40,
+        textAlignVertical: 'center',
+        fontWeight: '600',
+        fontStyle: 'italic',
+        textAlign: 'center',
+        color: '#000000',
+        backgroundColor: '#ffff00',
+        borderColor: '#000000',
+        borderWidth: 2,
+        borderRadius: 20
+    },
+    Hard:{
+        minHeight: 65,
+        fontSize: 40,
+        textAlignVertical: 'center',
+        fontWeight: '600',
+        fontStyle: 'italic',
+        textAlign: 'center',
+        color: '#ffffff',
+        backgroundColor: '#f00000',
+        borderColor: '#000000',
+        borderRadius: 20,
+        borderWidth: 2,
+    },
     Board: {
         minHeight: 500
     },
@@ -38,14 +88,14 @@ const styles = StyleSheet.create({
     },
     p2: {
         position: 'absolute',
-        paddingLeft: 175,
+        paddingLeft: 172,
         paddingTop: 22,
         maxHeight: 20,
         maxWidth: 20
     },
     p3: {
         position: 'absolute',
-        paddingLeft: 265,
+        paddingLeft: 256,
         paddingTop: 22,
         maxHeight: 20,
         maxWidth: 20
@@ -59,14 +109,14 @@ const styles = StyleSheet.create({
     },
     p5: {
         position: 'absolute',
-        paddingLeft: 175,
+        paddingLeft: 172,
         paddingTop: 118,
         maxHeight: 20,
         maxWidth: 20
     },
     p6: {
         position: 'absolute',
-        paddingLeft: 331,
+        paddingLeft: 320,
         paddingTop: 118,
         maxHeight: 20,
         maxWidth: 20
@@ -80,14 +130,14 @@ const styles = StyleSheet.create({
     },
     p8: {
         position: 'absolute',
-        paddingLeft: 175,
+        paddingLeft: 172,
         paddingTop: 225,
         maxHeight: 20,
         maxWidth: 20
     },
     p9: {
         position: 'absolute',
-        paddingLeft: 331,
+        paddingLeft: 320,
         paddingTop: 225,
         maxHeight: 20,
         maxWidth: 20
@@ -101,14 +151,14 @@ const styles = StyleSheet.create({
     },
     p11: {
         position: 'absolute',
-        paddingLeft: 175,
+        paddingLeft: 172,
         paddingTop: 332,
         maxHeight: 20,
         maxWidth: 20
     },
     p12: {
         position: 'absolute',
-        paddingLeft: 332,
+        paddingLeft: 320,
         paddingTop: 332,
         maxHeight: 20,
         maxWidth: 20,
@@ -122,14 +172,14 @@ const styles = StyleSheet.create({
     },
     p14: {
         position: 'absolute',
-        paddingLeft: 175,
+        paddingLeft: 172,
         paddingTop: 430,
         maxHeight: 20,
         maxWidth: 20
     },
     p15: {
         position: 'absolute',
-        paddingLeft: 265,
+        paddingLeft: 256,
         paddingTop: 430,
         maxHeight: 20,
         maxWidth: 20
@@ -208,6 +258,16 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderRadius: 10,
         margin: 10
+    },
+    WinScreen: {
+        alignItems: 'center',
+        textAlign: 'center',
+        textAlignVertical: 'center'
+    },
+    WinFont: {
+        fontSize: 30,
+        color: '#000000',
+        fontWeight: 'bold'
     }
 })
 
