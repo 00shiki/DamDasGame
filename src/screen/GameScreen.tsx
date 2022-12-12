@@ -51,16 +51,19 @@ function getRandomInt(max: number) {
 
 
 function botMove() {
-  var moved = bot[0];
-  var moveInto = moved.neighbor[0];
+  var moved = bot[getRandomInt(bot.length)];
+  var moveInto = moved.neighbor[getRandomInt(moved.neighbor.length)];
   while (moveInto.isOccupied != 'no') {
-    const n = (moved.neighbor).length;
+    var n = (moved.neighbor).length;
     moveInto = moved.neighbor[getRandomInt(n)];
   }
   moved.isOccupied = 'no';
   moveInto.isOccupied = 'bot';
-  bot.shift();
+  bot.splice(bot.indexOf(moved), 1);
   bot.push(moveInto);
+  if (moveInto == (p13 || p14 || p15)) {
+    bot.splice(bot.indexOf(moveInto), 1);
+  }
   moved = p0;
   moveInto = p0;
 }
@@ -104,9 +107,9 @@ const GameScreen = () => {
   const [diffSelected, setDiffSelected] = React.useState(1);
   const [isNotSelected, setIsNotSelected] = React.useState(true);
   const [isConcluding, setIsConcluding] = React.useState(false)
-  var win = false;
+  const [win, setWin] = React.useState(0);
 
-  const soalTes = soal[diff-1];
+  const soalTes = soal[diff - 1];
 
   interface soalProps {
     visible: boolean;
@@ -153,15 +156,17 @@ const GameScreen = () => {
     const lose = ['#ff0000', 'YAH!', 'KAMU KALAH:('];
     var condition = nor;
 
-    if (win == true){
-      const condition = winning;
+    if (win == 1) {
+      condition = winning;
+    } else if (win == -1) {
+      condition = lose;
     } else {
-      const condition = lose;
+      condition = nor;
     }
 
-    return(
+    return (
       <Modal transparent visible={isConcluding}>
-        <View style={[styles.WinScreen, styles.containerSoal, {marginHorizontal: 60, marginTop: 300, backgroundColor: condition[0]}]}>
+        <View style={[styles.WinScreen, styles.containerSoal, { marginHorizontal: 60, marginTop: 300, backgroundColor: condition[0] }]}>
           <Text style={styles.WinFont}>{condition[1]}</Text>
           <Text style={styles.WinFont}>{condition[2]}</Text>
           <Button onPress={() => GameReset()} title="Main lagi"></Button>
@@ -280,7 +285,7 @@ const GameScreen = () => {
         Alert.alert(
           "Titik tidak bisa dijalankan",
           "Titik yang anda pilih tidak bisa dijalankan",
-          [{ text: "OK", onPress: () => Alert.alert(String(points.indexOf(x))) }]);
+          [{ text: "OK", onPress: () => Alert.alert("Anda ingin memindahkan ", String(points.indexOf(x))) }]);
       }
     } else {
       if (
@@ -295,14 +300,14 @@ const GameScreen = () => {
           selected.isOccupied = 'no';
           x.isOccupied = 'player';
           setSelected(p0);
-          if (p1.isOccupied == 'player' && p2.isOccupied == 'player' && p3.isOccupied == 'player'){
-            win = true;
+          if (p1.isOccupied == 'player' && p2.isOccupied == 'player' && p3.isOccupied == 'player') {
+            setWin(1);
             setIsConcluding(true);
             WinScreen()
           }
           botMove();
-          if (p13.isOccupied == 'bot' && p14.isOccupied == 'bot' && p15.isOccupied == 'bot'){
-            win = false;
+          if (p13.isOccupied == 'bot' && p14.isOccupied == 'bot' && p15.isOccupied == 'bot') {
+            setWin(-1);
             setIsConcluding(true);
             WinScreen()
           }
@@ -325,22 +330,22 @@ const GameScreen = () => {
       setSelected(p0);
       setMovedTo(p0);
       setVisible(false);
-      if (p1.isOccupied == 'player' && p2.isOccupied == 'player' && p3.isOccupied == 'player'){
-        win = true;
+      if (p1.isOccupied == 'player' && p2.isOccupied == 'player' && p3.isOccupied == 'player') {
+        setWin(1);
         setIsConcluding(true);
         WinScreen()
       }
       botMove();
-      if (p13.isOccupied == 'bot' && p14.isOccupied == 'bot' && p15.isOccupied == 'bot'){
-        win = false;
+      if (p13.isOccupied == 'bot' && p14.isOccupied == 'bot' && p15.isOccupied == 'bot') {
+        setWin(-1);
         setIsConcluding(true);
         WinScreen()
       }
-    } else { 
-      setVisible(false); 
+    } else {
+      setVisible(false);
       botMove();
-      if (p13.isOccupied == 'bot' && p14.isOccupied == 'bot' && p15.isOccupied == 'bot'){
-        win = false;
+      if (p13.isOccupied == 'bot' && p14.isOccupied == 'bot' && p15.isOccupied == 'bot') {
+        setWin(-1);
         setIsConcluding(true);
         WinScreen()
       }
@@ -356,81 +361,81 @@ const GameScreen = () => {
       <DiffSelection></DiffSelection>
       <Text style={[styles.PlayerWindow, styles.PlayerText]}>Computer</Text>
       <View style={[styles.Board]}>
-        <TouchableHighlight disabled={p1.isOccupied == 'bot'} onPress={() => onPointPress(points[0])}>
-          <View style={place[0]}>
+        <View style={place[0]}>
+          <TouchableHighlight onPress={() => onPointPress(points[0])}>
             {PointCheck(points[0])}
-          </View>
-        </TouchableHighlight>
-        <TouchableHighlight disabled={p2.isOccupied == 'bot'} onPress={() => onPointPress(points[1])}>
-          <View style={place[1]}>
+          </TouchableHighlight>
+        </View>
+        <View style={place[1]}>
+          <TouchableHighlight onPress={() => onPointPress(points[1])}>
             {PointCheck(points[1])}
-          </View>
-        </TouchableHighlight>
-        <TouchableHighlight disabled={p3.isOccupied == 'bot'} onPress={() => onPointPress(points[2])}>
-          <View style={place[2]}>
+          </TouchableHighlight>
+        </View>
+        <View style={place[2]}>
+          <TouchableHighlight onPress={() => onPointPress(points[2])}>
             {PointCheck(points[2])}
-          </View>
-        </TouchableHighlight>
-        <TouchableHighlight disabled={p4.isOccupied == 'bot'} onPress={() => onPointPress(points[3])}>
-          <View style={place[3]}>
+          </TouchableHighlight>
+        </View>
+        <View style={place[3]}>
+          <TouchableHighlight onPress={() => onPointPress(points[3])}>
             {PointCheck(points[3])}
-          </View>
-        </TouchableHighlight>
-        <TouchableHighlight disabled={p5.isOccupied == 'bot'} onPress={() => onPointPress(points[4])}>
-          <View style={place[4]}>
+          </TouchableHighlight>
+        </View>
+        <View style={place[4]}>
+          <TouchableHighlight onPress={() => onPointPress(points[4])}>
             {PointCheck(points[4])}
-          </View>
-        </TouchableHighlight>
-        <TouchableHighlight disabled={p6.isOccupied == 'bot'} onPress={() => onPointPress(points[5])}>
-          <View style={place[5]}>
+          </TouchableHighlight>
+        </View>
+        <View style={place[5]}>
+          <TouchableHighlight onPress={() => onPointPress(points[5])}>
             {PointCheck(points[5])}
-          </View>
-        </TouchableHighlight>
-        <TouchableHighlight disabled={p7.isOccupied == 'bot'} onPress={() => onPointPress(points[6])}>
-          <View style={place[6]}>
+          </TouchableHighlight>
+        </View>
+        <View style={place[6]}>
+          <TouchableHighlight onPress={() => onPointPress(points[6])}>
             {PointCheck(points[6])}
-          </View>
-        </TouchableHighlight>
-        <TouchableHighlight disabled={p8.isOccupied == 'bot'} onPress={() => onPointPress(points[7])}>
-          <View style={place[7]}>
+          </TouchableHighlight>
+        </View>
+        <View style={place[7]}>
+          <TouchableHighlight onPress={() => onPointPress(points[7])}>
             {PointCheck(points[7])}
-          </View>
-        </TouchableHighlight>
-        <TouchableHighlight disabled={p9.isOccupied == 'bot'} onPress={() => onPointPress(points[8])}>
-          <View style={place[8]}>
+          </TouchableHighlight>
+        </View>
+        <View style={place[8]}>
+          <TouchableHighlight onPress={() => onPointPress(points[8])}>
             {PointCheck(points[8])}
-          </View>
-        </TouchableHighlight>
-        <TouchableHighlight disabled={p10.isOccupied == 'bot'} onPress={() => onPointPress(points[9])}>
-          <View style={place[9]}>
+          </TouchableHighlight>
+        </View>
+        <View style={place[9]}>
+          <TouchableHighlight onPress={() => onPointPress(points[9])}>
             {PointCheck(points[9])}
-          </View>
-        </TouchableHighlight>
-        <TouchableHighlight disabled={p11.isOccupied == 'bot'} onPress={() => onPointPress(points[10])}>
-          <View style={place[10]}>
+          </TouchableHighlight>
+        </View>
+        <View style={place[10]}>
+          <TouchableHighlight onPress={() => onPointPress(points[10])}>
             {PointCheck(points[10])}
-          </View>
-        </TouchableHighlight>
-        <TouchableHighlight disabled={p12.isOccupied == 'bot'} onPress={() => onPointPress(points[11])}>
-          <View style={place[11]}>
+          </TouchableHighlight>
+        </View>
+        <View style={place[11]}>
+          <TouchableHighlight onPress={() => onPointPress(points[11])}>
             {PointCheck(points[11])}
-          </View>
-        </TouchableHighlight>
-        <TouchableHighlight disabled={p13.isOccupied == 'bot'} onPress={() => onPointPress(points[12])}>
-          <View style={place[12]}>
+          </TouchableHighlight>
+        </View>
+        <View style={place[12]}>
+          <TouchableHighlight hitSlop={{bottom: 20, left: 20, right: 20, top:20}} onPress={() => onPointPress(points[12])}>
             {PointCheck(points[12])}
-          </View>
-        </TouchableHighlight>
-        <TouchableHighlight disabled={p14.isOccupied == 'bot'} onPress={() => onPointPress(points[13])}>
-          <View style={place[13]}>
+          </TouchableHighlight>
+        </View>
+        <View style={place[13]}>
+          <TouchableHighlight hitSlop={{bottom: 20, left: 20, right: 20, top:20}} onPress={() => onPointPress(points[13])}>
             {PointCheck(points[13])}
-          </View>
-        </TouchableHighlight>
-        <TouchableHighlight disabled={p15.isOccupied == 'bot'} onPress={() => onPointPress(points[14])}>
-          <View style={place[14]}>
+          </TouchableHighlight>
+        </View>
+        <View style={place[14]}>
+          <TouchableHighlight hitSlop={{bottom: 20, left: 20, right: 20, top:20}} onPress={() => onPointPress(points[14])}>
             {PointCheck(points[14])}
-          </View>
-        </TouchableHighlight>
+          </TouchableHighlight>
+        </View>
       </View>
       <Text style={[styles.PlayerWindow, styles.PlayerText]}>Player1</Text>
     </ImageBackground>

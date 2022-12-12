@@ -17,18 +17,18 @@ export class Soal{
 }
 
 let easy = [
-    {'soal':'2 x 2  = ...',
+    {'soal':'1 + 1  = ...',
     'a1':'1',
     'a2':'2',
     'a3':'3',
     'a4':'4',
-    'ans':'a4'
+    'ans':'a2'
     },
-    {'soal':'Apel itu warna apa?',
-    'a1':'Biru',
-    'a2':'Merah',
-    'a3':'Kuning',
-    'a4':'Hitam',
+    {'soal':'Bilangan setelah 2 adalah',
+    'a1':'1',
+    'a2':'3',
+    'a3':'4',
+    'a4':'Tidak ada',
     'ans':'a2'
     },
 ]
@@ -41,28 +41,28 @@ let normal = [
     'a4':'6',
     'ans':'a4'
     },
-    {'soal':'Lemon itu warna apa?',
-    'a1':'Biru',
-    'a2':'Merah',
-    'a3':'Kuning',
-    'a4':'Hitam',
-    'ans':'a3e'
+    {'soal':'Bilangan prima pertama adalah',
+    'a1':'1',
+    'a2':'2',
+    'a3':'3',
+    'a4':'5',
+    'ans':'a2'
     },
 ]
 
 let hard = [
-    {'soal':'2 x 4  = ...',
-    'a1':'1',
-    'a2':'2',
-    'a3':'6',
-    'a4':'8',
+    {'soal':'2(5+2) - 7  = ...',
+    'a1':'5',
+    'a2':'7',
+    'a3':'11',
+    'a4':'13',
     'ans':'a4'
     },
-    {'soal':'Blueberry itu warna apa?',
-    'a1':'Biru',
-    'a2':'Merah',
-    'a3':'Kuning',
-    'a4':'Hitam',
+    {'soal':'12 - 7 x 2',
+    'a1':'-2',
+    'a2':'10',
+    'a3':'3',
+    'a4':'6',
     'ans':'a1'
     },
 ]
