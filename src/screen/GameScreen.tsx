@@ -49,13 +49,27 @@ function getRandomInt(max: number) {
   return Math.floor(Math.random() * max);
 }
 
+function moveSelection(x: point) {
+  var l = 1;
+  var option = x.neighbor;
+  var selected = option[(option.length - l)];
+  while (selected.isOccupied != 'no') {
+    if (option.length - l == 0) {
+      break;
+    }
+    l += 1;
+    selected = option[(option.length - l)];
+  }
+  return selected;
+}
+
 
 function botMove() {
   var moved = bot[getRandomInt(bot.length)];
-  var moveInto = moved.neighbor[getRandomInt(moved.neighbor.length)];
+  var moveInto = moveSelection(moved);
   while (moveInto.isOccupied != 'no') {
-    var n = (moved.neighbor).length;
-    moveInto = moved.neighbor[getRandomInt(n)];
+    moved = bot[getRandomInt(bot.length)];
+    moveInto = moveSelection(moved);
   }
   moved.isOccupied = 'no';
   moveInto.isOccupied = 'bot';
