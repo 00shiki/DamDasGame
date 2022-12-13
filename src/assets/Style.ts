@@ -83,104 +83,104 @@ const styles = StyleSheet.create({
         position: 'absolute',
         maxHeight: 20,
         maxWidth: 20,
-        paddingLeft: 85,
-        paddingTop: 22
+        paddingLeft: 75,
+        paddingTop: 25
     },
     p2: {
         position: 'absolute',
-        paddingLeft: 172,
-        paddingTop: 22,
+        paddingLeft: 165,
+        paddingTop: 25,
         maxHeight: 20,
         maxWidth: 20
     },
     p3: {
         position: 'absolute',
-        paddingLeft: 256,
-        paddingTop: 22,
+        paddingLeft: 255,
+        paddingTop: 25,
         maxHeight: 20,
         maxWidth: 20
     },
     p4: {
         position: 'absolute',
-        paddingLeft: 19,
-        paddingTop: 118,
+        paddingLeft: 15,
+        paddingTop: 130,
         maxHeight: 20,
         maxWidth: 20
     },
     p5: {
         position: 'absolute',
-        paddingLeft: 172,
-        paddingTop: 118,
+        paddingLeft: 165,
+        paddingTop: 130,
         maxHeight: 20,
         maxWidth: 20
     },
     p6: {
         position: 'absolute',
-        paddingLeft: 320,
-        paddingTop: 118,
+        paddingLeft: 315,
+        paddingTop: 130,
         maxHeight: 20,
         maxWidth: 20
     },
     p7: {
         position: 'absolute',
-        paddingLeft: 19,
-        paddingTop: 225,
+        paddingLeft: 15,
+        paddingTop: 235,
         maxHeight: 20,
         maxWidth: 20
     },
     p8: {
         position: 'absolute',
-        paddingLeft: 172,
-        paddingTop: 225,
+        paddingLeft: 165,
+        paddingTop: 235,
         maxHeight: 20,
         maxWidth: 20
     },
     p9: {
         position: 'absolute',
-        paddingLeft: 320,
-        paddingTop: 225,
+        paddingLeft: 315,
+        paddingTop: 235,
         maxHeight: 20,
         maxWidth: 20
     },
     p10: {
         position: 'absolute',
-        paddingLeft: 19,
-        paddingTop: 332,
+        paddingLeft: 15,
+        paddingTop: 340,
         maxHeight: 20,
         maxWidth: 20
     },
     p11: {
         position: 'absolute',
-        paddingLeft: 172,
-        paddingTop: 332,
+        paddingLeft: 165,
+        paddingTop: 340,
         maxHeight: 20,
         maxWidth: 20
     },
     p12: {
         position: 'absolute',
-        paddingLeft: 320,
-        paddingTop: 332,
+        paddingLeft: 315,
+        paddingTop: 340,
         maxHeight: 20,
         maxWidth: 20,
     },
     p13: {
         position: 'absolute',
-        paddingLeft: 85,
-        paddingTop: 430,
+        paddingLeft: 75,
+        paddingTop: 435,
         maxHeight: 20,
         maxWidth: 20
     },
     p14: {
         position: 'absolute',
-        paddingLeft: 172,
-        paddingTop: 430,
+        paddingLeft: 165,
+        paddingTop: 435,
         maxHeight: 20,
         maxWidth: 20
     },
     p15: {
         position: 'absolute',
-        paddingLeft: 256,
-        paddingTop: 430,
+        paddingLeft: 255,
+        paddingTop: 435,
         maxHeight: 20,
         maxWidth: 20
     },
