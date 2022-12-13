@@ -1,85 +1,110 @@
-import React, { ReactElement, ReactNode, useState } from "react";
-import { View, Text, ImageBackground, Button, Pressable, TouchableHighlight, Alert, Modal, ViewComponent } from "react-native";
-import styles from "../assets/Style";
-import Board from "../components/Board";
-import { Soal, soal } from "../model/Soal";
-import Bot from "../components/Bot";
-import Player from "../components/Player";
-import Point from "../components/Point";
-import { pawn } from "../model/Pawn";
-import { point } from "../model/Point";
+import React, { ReactElement, ReactNode, useState } from 'react'
+import {
+  View,
+  Text,
+  ImageBackground,
+  Button,
+  Pressable,
+  TouchableHighlight,
+  Alert,
+  Modal,
+  ViewComponent,
+} from 'react-native'
+import styles from '../assets/Style'
+import Board from '../components/Board'
+import { Soal, soal } from '../model/Soal'
+import Bot from '../components/Bot'
+import Player from '../components/Player'
+import Point from '../components/Point'
+import { pawn } from '../model/Pawn'
+import { point } from '../model/Point'
 
-const p0: point = new point([], false, 'no');
-const p1: point = new point([], false, 'bot');
-const p2: point = new point([], false, 'bot');
-const p3: point = new point([], false, 'bot');
-const p4: point = new point([], false, 'no');
-const p5: point = new point([], false, 'no');
-const p6: point = new point([], false, 'no');
-const p7: point = new point([], false, 'no');
-const p8: point = new point([], false, 'no');
-const p9: point = new point([], false, 'no');
-const p10: point = new point([], false, 'no');
-const p11: point = new point([], false, 'no');
-const p12: point = new point([], false, 'no');
-const p13: point = new point([], true, 'player');
-const p14: point = new point([], true, 'player');
-const p15: point = new point([], true, 'player');
+const p0: point = new point([], false, 'no')
+const p1: point = new point([], false, 'bot')
+const p2: point = new point([], false, 'bot')
+const p3: point = new point([], false, 'bot')
+const p4: point = new point([], false, 'no')
+const p5: point = new point([], false, 'no')
+const p6: point = new point([], false, 'no')
+const p7: point = new point([], false, 'no')
+const p8: point = new point([], false, 'no')
+const p9: point = new point([], false, 'no')
+const p10: point = new point([], false, 'no')
+const p11: point = new point([], false, 'no')
+const p12: point = new point([], false, 'no')
+const p13: point = new point([], true, 'player')
+const p14: point = new point([], true, 'player')
+const p15: point = new point([], true, 'player')
 
-p1.neighbor = [p2, p5];
-p2.neighbor = [p1, p3, p5];
-p3.neighbor = [p2, p5];
-p4.neighbor = [p5, p7];
-p5.neighbor = [p1, p2, p3, p4, p6, p7, p8, p9];
-p6.neighbor = [p5, p9];
-p7.neighbor = [p4, p5, p8, p10, p11];
-p8.neighbor = [p4, p5, p6, p7, p9, p10, p11, p12];
-p9.neighbor = [p5, p6, p8, p11, p12];
-p10.neighbor = [p7, p11];
-p11.neighbor = [p7, p8, p9, p10, p12, p13, p14, p15];
-p12.neighbor = [p9, p11];
-p13.neighbor = [p11, p14];
-p14.neighbor = [p11, p13, p15];
-p15.neighbor = [p11, p14];
+p1.neighbor = [p2, p5]
+p2.neighbor = [p1, p3, p5]
+p3.neighbor = [p2, p5]
+p4.neighbor = [p5, p7]
+p5.neighbor = [p1, p2, p3, p4, p6, p7, p8, p9]
+p6.neighbor = [p5, p9]
+p7.neighbor = [p4, p5, p8, p10, p11]
+p8.neighbor = [p4, p5, p6, p7, p9, p10, p11, p12]
+p9.neighbor = [p5, p6, p8, p11, p12]
+p10.neighbor = [p7, p11]
+p11.neighbor = [p7, p8, p9, p10, p12, p13, p14, p15]
+p12.neighbor = [p9, p11]
+p13.neighbor = [p11, p14]
+p14.neighbor = [p11, p13, p15]
+p15.neighbor = [p11, p14]
 
-const points = [p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15];
-const bot = [p1, p2, p3];
+const points = [
+  p1,
+  p2,
+  p3,
+  p4,
+  p5,
+  p6,
+  p7,
+  p8,
+  p9,
+  p10,
+  p11,
+  p12,
+  p13,
+  p14,
+  p15,
+]
+const bot = [p1, p2, p3]
 
 function getRandomInt(max: number) {
-  return Math.floor(Math.random() * max);
+  return Math.floor(Math.random() * max)
 }
 
 function moveSelection(x: point) {
-  var l = 1;
-  var option = x.neighbor;
-  var selected = option[(option.length - l)];
+  var l = 1
+  var option = x.neighbor
+  var selected = option[option.length - l]
   while (selected.isOccupied != 'no') {
     if (option.length - l == 0) {
-      break;
+      break
     }
-    l += 1;
-    selected = option[(option.length - l)];
+    l += 1
+    selected = option[option.length - l]
   }
-  return selected;
+  return selected
 }
 
-
 function botMove() {
-  var moved = bot[getRandomInt(bot.length)];
-  var moveInto = moveSelection(moved);
+  var moved = bot[getRandomInt(bot.length)]
+  var moveInto = moveSelection(moved)
   while (moveInto.isOccupied != 'no') {
-    moved = bot[getRandomInt(bot.length)];
-    moveInto = moveSelection(moved);
+    moved = bot[getRandomInt(bot.length)]
+    moveInto = moveSelection(moved)
   }
-  moved.isOccupied = 'no';
-  moveInto.isOccupied = 'bot';
-  bot.splice(bot.indexOf(moved), 1);
-  bot.push(moveInto);
+  moved.isOccupied = 'no'
+  moveInto.isOccupied = 'bot'
+  bot.splice(bot.indexOf(moved), 1)
+  bot.push(moveInto)
   if (moveInto == (p13 || p14 || p15)) {
-    bot.splice(bot.indexOf(moveInto), 1);
+    bot.splice(bot.indexOf(moveInto), 1)
   }
-  moved = p0;
-  moveInto = p0;
+  moved = p0
+  moveInto = p0
 }
 
 const place = [
@@ -113,103 +138,113 @@ function PointCheck(x: point) {
 }
 
 const GameScreen = () => {
-  const [visible, setVisible] = React.useState(false);
-  const [selected, setSelected] = React.useState(p0);
-  const [nomor, setNomor] = React.useState(0);
-  const [movedTo, setMovedTo] = React.useState(p0);
-  const [diff, setDiff] = React.useState(1);
-  const [diffSelected, setDiffSelected] = React.useState(1);
-  const [isNotSelected, setIsNotSelected] = React.useState(true);
+  const [visible, setVisible] = React.useState(false)
+  const [selected, setSelected] = React.useState(p0)
+  const [nomor, setNomor] = React.useState(0)
+  const [movedTo, setMovedTo] = React.useState(p0)
+  const [diff, setDiff] = React.useState(1)
+  const [diffSelected, setDiffSelected] = React.useState(1)
+  const [isNotSelected, setIsNotSelected] = React.useState(true)
   const [isConcluding, setIsConcluding] = React.useState(false)
-  const [win, setWin] = React.useState(0);
+  const [win, setWin] = React.useState(0)
 
-  const soalTes = soal[diff - 1];
+  const soalTes = soal[diff - 1]
 
   interface soalProps {
-    visible: boolean;
-    nomor: number;
+    visible: boolean
+    nomor: number
   }
 
   function GameReset() {
-    p1.isOccupied = 'bot';
-    p2.isOccupied = 'bot';
-    p3.isOccupied = 'bot';
-    p4.isOccupied = 'no';
-    p5.isOccupied = 'no';
-    p6.isOccupied = 'no';
-    p7.isOccupied = 'no';
-    p8.isOccupied = 'no';
-    p9.isOccupied = 'no';
-    p10.isOccupied = 'no';
-    p11.isOccupied = 'no';
-    p12.isOccupied = 'no';
-    p13.isOccupied = 'player';
-    p14.isOccupied = 'player';
-    p15.isOccupied = 'player';
+    p1.isOccupied = 'bot'
+    p2.isOccupied = 'bot'
+    p3.isOccupied = 'bot'
+    p4.isOccupied = 'no'
+    p5.isOccupied = 'no'
+    p6.isOccupied = 'no'
+    p7.isOccupied = 'no'
+    p8.isOccupied = 'no'
+    p9.isOccupied = 'no'
+    p10.isOccupied = 'no'
+    p11.isOccupied = 'no'
+    p12.isOccupied = 'no'
+    p13.isOccupied = 'player'
+    p14.isOccupied = 'player'
+    p15.isOccupied = 'player'
 
-    p1.isAnswered = false;
-    p2.isAnswered = false;
-    p3.isAnswered = false;
-    p4.isAnswered = false;
-    p5.isAnswered = false;
-    p6.isAnswered = false;
-    p7.isAnswered = false;
-    p8.isAnswered = false;
-    p9.isAnswered = false;
-    p10.isAnswered = false;
-    p11.isAnswered = false;
-    p12.isAnswered = false;
+    p1.isAnswered = false
+    p2.isAnswered = false
+    p3.isAnswered = false
+    p4.isAnswered = false
+    p5.isAnswered = false
+    p6.isAnswered = false
+    p7.isAnswered = false
+    p8.isAnswered = false
+    p9.isAnswered = false
+    p10.isAnswered = false
+    p11.isAnswered = false
+    p12.isAnswered = false
 
-    setIsNotSelected(true);
-    setIsConcluding(false);
+    setIsNotSelected(true)
+    setIsConcluding(false)
   }
 
   function WinScreen() {
     const nor = ['#0000ff', 'WAH', 'PERMAINAN SERI!']
-    const winning = ['#00ff00', 'SELAMAT!', 'KAMU MENANG!'];
-    const lose = ['#ff0000', 'YAH!', 'KAMU KALAH:('];
-    var condition = nor;
+    const winning = ['#00ff00', 'SELAMAT!', 'KAMU MENANG!']
+    const lose = ['#ff0000', 'YAH!', 'KAMU KALAH:(']
+    var condition = nor
 
     if (win == 1) {
-      condition = winning;
+      condition = winning
     } else if (win == -1) {
-      condition = lose;
+      condition = lose
     } else {
-      condition = nor;
+      condition = nor
     }
 
     return (
       <Modal transparent visible={isConcluding}>
-        <View style={[styles.WinScreen, styles.containerSoal, { marginHorizontal: 60, marginTop: 300, backgroundColor: condition[0] }]}>
+        <View
+          style={[
+            styles.WinScreen,
+            styles.containerSoal,
+            {
+              marginHorizontal: 60,
+              marginTop: 300,
+              backgroundColor: condition[0],
+            },
+          ]}
+        >
           <Text style={styles.WinFont}>{condition[1]}</Text>
           <Text style={styles.WinFont}>{condition[2]}</Text>
-          <Button onPress={() => GameReset()} title="Main lagi"></Button>
+          <Button onPress={() => GameReset()} title='Main lagi'></Button>
         </View>
       </Modal>
     )
   }
 
   const DiffSelection = () => {
-    const diffStyle = [styles.Easy, styles.Normal, styles.Hard];
-    const diff = ["Easy", "Normal", "Hard"];
+    const diffStyle = [styles.Easy, styles.Normal, styles.Hard]
+    const diff = ['Easy', 'Normal', 'Hard']
 
     const DiffAdd = () => {
-      var x = diffSelected;
+      var x = diffSelected
       if (x < 3) {
-        x += 1;
-        setDiffSelected(x);
+        x += 1
+        setDiffSelected(x)
       } else {
-        setDiffSelected(x);
+        setDiffSelected(x)
       }
     }
 
     const DiffReduce = () => {
-      var x = diffSelected;
+      var x = diffSelected
       if (x > 1) {
-        x -= 1;
-        setDiffSelected(x);
+        x -= 1
+        setDiffSelected(x)
       } else {
-        setDiffSelected(x);
+        setDiffSelected(x)
       }
     }
 
@@ -224,25 +259,54 @@ const GameScreen = () => {
     }
 
     function Selecting() {
-      setDiff(diffSelected);
-      setIsNotSelected(false);
+      setDiff(diffSelected)
+      setIsNotSelected(false)
     }
 
     return (
       <Modal transparent visible={isNotSelected}>
-        <View style={{ alignItems: 'stretch', alignContent: 'center', flex: 10 }}>
-          <ImageBackground source={require('./bg.png')} style={[styles.containerSoal, { flex: 5, borderRadius: 0, alignContent: 'center' }]}>
-            <View style={[{ flexWrap: 'nowrap', flex: 5, marginVertical: 100 }]}>
-              <Text style={[{ fontSize: 20, textAlign: 'center', marginBottom: 50 }, styles.Diff]}>Silahkan pilih tingkat kesulitan</Text>
+        <View
+          style={{ alignItems: 'stretch', alignContent: 'center', flex: 10 }}
+        >
+          <ImageBackground
+            source={require('./bg.png')}
+            style={[
+              styles.containerSoal,
+              { flex: 5, borderRadius: 0, alignContent: 'center' },
+            ]}
+          >
+            <View
+              style={[{ flexWrap: 'nowrap', flex: 5, marginVertical: 100 }]}
+            >
+              <Text
+                style={[
+                  { fontSize: 20, textAlign: 'center', marginBottom: 50 },
+                  styles.Diff,
+                ]}
+              >
+                Silahkan pilih tingkat kesulitan
+              </Text>
               <View style={{ marginHorizontal: 130 }}>
-                <Button title="+" color={'#ff6600'} onPress={() => DiffAdd()}></Button>
+                <Button
+                  title='+'
+                  color={'#ff6600'}
+                  onPress={() => DiffAdd()}
+                ></Button>
               </View>
               {Diff()}
               <View style={{ marginHorizontal: 130, marginBottom: 50 }}>
-                <Button title="-" color={'#ff6600'} onPress={() => DiffReduce()}></Button>
+                <Button
+                  title='-'
+                  color={'#ff6600'}
+                  onPress={() => DiffReduce()}
+                ></Button>
               </View>
               <View style={{ marginHorizontal: 80 }}>
-                <Button title="Mulai main" color={'#00aa00'} onPress={() => Selecting()}></Button>
+                <Button
+                  title='Mulai main'
+                  color={'#00aa00'}
+                  onPress={() => Selecting()}
+                ></Button>
               </View>
             </View>
           </ImageBackground>
@@ -252,11 +316,16 @@ const GameScreen = () => {
   }
 
   const ScreenSoal = (x: soalProps) => {
-    const [showModal, setShowModal] = React.useState(visible);
+    const [showModal, setShowModal] = React.useState(visible)
     return (
       <Modal transparent visible={visible}>
-        <View style={{ alignItems: 'stretch', alignContent: 'center', flex: 10 }}>
-          <ImageBackground source={require('./bg.png')} style={[styles.containerSoal, { flex: 7, borderRadius: 0 }]}>
+        <View
+          style={{ alignItems: 'stretch', alignContent: 'center', flex: 10 }}
+        >
+          <ImageBackground
+            source={require('./bg.png')}
+            style={[styles.containerSoal, { flex: 7, borderRadius: 0 }]}
+          >
             <View style={styles.timeRemaining}>
               <Text style={styles.timeRemainingFont}>00:10:00</Text>
             </View>
@@ -287,86 +356,117 @@ const GameScreen = () => {
             </View>
           </ImageBackground>
         </View>
-      </Modal>)
+      </Modal>
+    )
   }
-
 
   const onPointPress = (x: point) => {
     if (selected == p0) {
       if (x.isOccupied == 'player') {
-        setSelected(x);
+        setSelected(x)
       } else {
         Alert.alert(
-          "Titik tidak bisa dijalankan",
-          "Titik yang anda pilih tidak bisa dijalankan",
-          [{ text: "OK", onPress: () => Alert.alert("Anda ingin memindahkan ", String(points.indexOf(x))) }]);
+          'Titik tidak bisa dijalankan',
+          'Titik yang anda pilih tidak bisa dijalankan',
+          [
+            {
+              text: 'OK',
+              onPress: () =>
+                Alert.alert(
+                  'Anda ingin memindahkan ',
+                  String(points.indexOf(x))
+                ),
+            },
+          ]
+        )
       }
     } else {
-      if (
-        (selected.neighbor.includes(x)) &&
-        (x.isOccupied == ('no'))
-      ) {
+      if (selected.neighbor.includes(x) && x.isOccupied == 'no') {
         if (x.isAnswered == false) {
           setNomor(getRandomInt(soalTes.length))
-          setMovedTo(x);
-          setVisible(true);
+          setMovedTo(x)
+          setVisible(true)
         } else {
-          selected.isOccupied = 'no';
-          x.isOccupied = 'player';
-          setSelected(p0);
-          if (p1.isOccupied == 'player' && p2.isOccupied == 'player' && p3.isOccupied == 'player') {
-            setWin(1);
-            setIsConcluding(true);
+          selected.isOccupied = 'no'
+          x.isOccupied = 'player'
+          setSelected(p0)
+          if (
+            p1.isOccupied == 'player' &&
+            p2.isOccupied == 'player' &&
+            p3.isOccupied == 'player'
+          ) {
+            setWin(1)
+            setIsConcluding(true)
             WinScreen()
           }
-          botMove();
-          if (p13.isOccupied == 'bot' && p14.isOccupied == 'bot' && p15.isOccupied == 'bot') {
-            setWin(-1);
-            setIsConcluding(true);
+          botMove()
+          if (
+            p13.isOccupied == 'bot' &&
+            p14.isOccupied == 'bot' &&
+            p15.isOccupied == 'bot'
+          ) {
+            setWin(-1)
+            setIsConcluding(true)
             WinScreen()
           }
         }
       } else {
         Alert.alert(
-          "Titik tidak bisa dijalankan kesini",
-          "Titik yang anda pilih tidak bisa dijalankan kesini",
-          [{ text: "OK", onPress: () => Alert.alert(String(points.indexOf(x))) }]);
-        setSelected(p0);
+          'Titik tidak bisa dijalankan kesini',
+          'Titik yang anda pilih tidak bisa dijalankan kesini',
+          [
+            {
+              text: 'OK',
+              onPress: () => Alert.alert(String(points.indexOf(x))),
+            },
+          ]
+        )
+        setSelected(p0)
       }
     }
   }
 
   function onAnswer(option: String, x: number) {
     if (option == soalTes[x].ans) {
-      selected.isOccupied = 'no';
-      movedTo.isOccupied = 'player';
-      movedTo.isAnswered = true;
-      setSelected(p0);
-      setMovedTo(p0);
-      setVisible(false);
-      if (p1.isOccupied == 'player' && p2.isOccupied == 'player' && p3.isOccupied == 'player') {
-        setWin(1);
-        setIsConcluding(true);
+      selected.isOccupied = 'no'
+      movedTo.isOccupied = 'player'
+      movedTo.isAnswered = true
+      setSelected(p0)
+      setMovedTo(p0)
+      setVisible(false)
+      if (
+        p1.isOccupied == 'player' &&
+        p2.isOccupied == 'player' &&
+        p3.isOccupied == 'player'
+      ) {
+        setWin(1)
+        setIsConcluding(true)
         WinScreen()
       }
-      botMove();
-      if (p13.isOccupied == 'bot' && p14.isOccupied == 'bot' && p15.isOccupied == 'bot') {
-        setWin(-1);
-        setIsConcluding(true);
+      botMove()
+      if (
+        p13.isOccupied == 'bot' &&
+        p14.isOccupied == 'bot' &&
+        p15.isOccupied == 'bot'
+      ) {
+        setWin(-1)
+        setIsConcluding(true)
         WinScreen()
       }
     } else {
-      setVisible(false);
-      botMove();
-      if (p13.isOccupied == 'bot' && p14.isOccupied == 'bot' && p15.isOccupied == 'bot') {
-        setWin(-1);
-        setIsConcluding(true);
+      setVisible(false)
+      botMove()
+      if (
+        p13.isOccupied == 'bot' &&
+        p14.isOccupied == 'bot' &&
+        p15.isOccupied == 'bot'
+      ) {
+        setWin(-1)
+        setIsConcluding(true)
         WinScreen()
       }
     }
   }
-
-
 
   return (
     <ImageBackground resizeMode={'stretch'} source={require('./bg_board.png')}>
@@ -436,24 +536,33 @@ const GameScreen = () => {
           </TouchableHighlight>
         </View>
         <View style={place[12]}>
-          <TouchableHighlight hitSlop={{bottom: 20, left: 20, right: 20, top:20}} onPress={() => onPointPress(points[12])}>
+          <TouchableHighlight
+            hitSlop={{ bottom: 20, left: 20, right: 20, top: 20 }}
+            onPress={() => onPointPress(points[12])}
+          >
             {PointCheck(points[12])}
           </TouchableHighlight>
         </View>
         <View style={place[13]}>
-          <TouchableHighlight hitSlop={{bottom: 20, left: 20, right: 20, top:20}} onPress={() => onPointPress(points[13])}>
+          <TouchableHighlight
+            hitSlop={{ bottom: 20, left: 20, right: 20, top: 20 }}
+            onPress={() => onPointPress(points[13])}
+          >
             {PointCheck(points[13])}
           </TouchableHighlight>
         </View>
         <View style={place[14]}>
-          <TouchableHighlight hitSlop={{bottom: 20, left: 20, right: 20, top:20}} onPress={() => onPointPress(points[14])}>
+          <TouchableHighlight
+            hitSlop={{ bottom: 20, left: 20, right: 20, top: 20 }}
+            onPress={() => onPointPress(points[14])}
+          >
             {PointCheck(points[14])}
           </TouchableHighlight>
         </View>
       </View>
       <Text style={[styles.PlayerWindow, styles.PlayerText]}>Player1</Text>
     </ImageBackground>
-  );
-};
+  )
+}
 
-export default GameScreen;
+export default GameScreen
