@@ -142,7 +142,8 @@ const GameScreen = ({ navigation, route }: any) => {
   const [movedTo, setMovedTo] = useState(p0)
   const [isConcluding, setIsConcluding] = useState(false)
   const [win, setWin] = useState(0)
-  const diff = route.diffSelected
+  const { diff } = route.params
+  /* const diff = 1 */
 
   const soalTes = soal[diff - 1]
 

@@ -68,8 +68,9 @@ const MenuScreen = ({ navigation }: any) => {
               title='Mulai main'
               color={'#00aa00'}
               onPress={() => {
+                console.log(diffSelected)
                 navigation.navigate('Game', {
-                  params: { diffSelected },
+                  diff: diffSelected,
                 })
               }}
             ></Button>
