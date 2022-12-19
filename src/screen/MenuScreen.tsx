@@ -4,26 +4,20 @@ import styles from '../assets/Style'
 import GameViewModel from './ViewModel'
 
 const MenuScreen = ({ navigation }: any, viewModel: GameViewModel) => {
-  const [option, setOption] = React.useState(1)
   const diffStyle = [styles.Easy, styles.Normal, styles.Hard]
-  var diffSelected = 2
+  const diffSelected = viewModel.getDiff
   const diff = ['Easy', 'Normal', 'Hard']
+  const [option, setOption] = React.useState(1)
 
   const DiffAdd = () => {
-    if (diffSelected < 3) {
-      diffSelected += 1
-      setOption(diffSelected)
-    } else {
-      setOption(diffSelected)
+    if (option < 3) {
+      setOption(option + 1)
     }
   }
 
   const DiffReduce = () => {
-    if (diffSelected > 1) {
-      diffSelected -= 1
-      setOption(diffSelected)
-    } else {
-      setOption(diffSelected)
+    if (option > 1) {
+      setOption(option - 1)
     }
   }
 
@@ -76,6 +70,7 @@ const MenuScreen = ({ navigation }: any, viewModel: GameViewModel) => {
               title='Mulai main'
               color={'#00aa00'}
               onPress={() => {
+                viewModel.setDiff(option)
                 navigation.navigate('Game', {
                   params: { viewModel },
                 })
