@@ -1,30 +1,28 @@
 import React from 'react'
 import { View, Text, ImageBackground, Button } from 'react-native'
 import styles from '../assets/Style'
-import GameViewModel from './ViewModel'
 
-const MenuScreen = ({ navigation }: any, viewModel: GameViewModel) => {
+const MenuScreen = ({ navigation }: any) => {
   const diffStyle = [styles.Easy, styles.Normal, styles.Hard]
-  const diffSelected = viewModel.getDiff
   const diff = ['Easy', 'Normal', 'Hard']
-  const [option, setOption] = React.useState(1)
+  const [diffSelected, setDiffSelected] = React.useState(1)
 
   const DiffAdd = () => {
-    if (option < 3) {
-      setOption(option + 1)
+    if (diffSelected < 3) {
+      setDiffSelected(diffSelected + 1)
     }
   }
 
   const DiffReduce = () => {
-    if (option > 1) {
-      setOption(option - 1)
+    if (diffSelected > 1) {
+      setDiffSelected(diffSelected - 1)
     }
   }
 
   function Diff() {
-    if (option == 1) {
+    if (diffSelected == 1) {
       return <Text style={[diffStyle[0], { margin: 20 }]}>{diff[0]}</Text>
-    } else if (option == 2) {
+    } else if (diffSelected == 2) {
       return <Text style={[diffStyle[1], { margin: 20 }]}>{diff[1]}</Text>
     } else {
       return <Text style={[diffStyle[2], { margin: 20 }]}>{diff[2]}</Text>
@@ -70,9 +68,8 @@ const MenuScreen = ({ navigation }: any, viewModel: GameViewModel) => {
               title='Mulai main'
               color={'#00aa00'}
               onPress={() => {
-                viewModel.setDiff(option)
                 navigation.navigate('Game', {
-                  params: { viewModel },
+                  params: { diffSelected },
                 })
               }}
             ></Button>

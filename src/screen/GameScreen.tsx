@@ -1,4 +1,4 @@
-import { ReactElement, ReactNode, useState } from 'react'
+import { useState } from 'react'
 import {
   View,
   Text,
@@ -16,7 +16,6 @@ import Player from '../components/Player'
 import Point from '../components/Point'
 import { pawn } from '../model/Pawn'
 import { point } from '../model/Point'
-import GameViewModel from './ViewModel'
 
 const p0: point = new point([], false, 'no')
 const p1: point = new point([], false, 'bot')
@@ -79,7 +78,7 @@ function moveSelection(x: point) {
   var option = x.neighbor
   var selected = option[option.length - l]
   while (selected.isOccupied != 'no') {
-    if (option.length - l == 0) {
+    if (option.length - l === 0) {
       break
     }
     l += 1
@@ -99,7 +98,7 @@ function botMove() {
   moveInto.isOccupied = 'bot'
   bot.splice(bot.indexOf(moved), 1)
   bot.push(moveInto)
-  if (moveInto == (p13 || p14 || p15)) {
+  if (moveInto === (p13 || p14 || p15)) {
     bot.splice(bot.indexOf(moveInto), 1)
   }
   moved = p0
@@ -125,25 +124,25 @@ const place = [
 ]
 
 function PointCheck(x: point) {
-  if (x.isOccupied == 'no') {
+  if (x.isOccupied === 'no') {
     return <Point />
   }
-  if (x.isOccupied == 'player') {
+  if (x.isOccupied === 'player') {
     return <Player />
   }
-  if (x.isOccupied == 'bot') {
+  if (x.isOccupied === 'bot') {
     return <Bot />
   }
 }
 
-const GameScreen = ({ navigation }: any, viewModel: GameViewModel) => {
+const GameScreen = ({ navigation, route }: any) => {
   const [visible, setVisible] = useState(false)
   const [selected, setSelected] = useState(p0)
   const [nomor, setNomor] = useState(0)
   const [movedTo, setMovedTo] = useState(p0)
   const [isConcluding, setIsConcluding] = useState(false)
   const [win, setWin] = useState(0)
-  const diff = viewModel.getDiff
+  const diff = route.diffSelected
 
   const soalTes = soal[diff - 1]
 
@@ -191,9 +190,9 @@ const GameScreen = ({ navigation }: any, viewModel: GameViewModel) => {
     const lose = ['#ff0000', 'YAH!', 'KAMU KALAH:(']
     var condition = nor
 
-    if (win == 1) {
+    if (win === 1) {
       condition = winning
-    } else if (win == -1) {
+    } else if (win === -1) {
       condition = lose
     } else {
       condition = nor
@@ -223,7 +222,7 @@ const GameScreen = ({ navigation }: any, viewModel: GameViewModel) => {
   const ScreenSoal = (x: soalProps) => {
     const [showModal, setShowModal] = useState(visible)
     return (
-      <Modal transparent visible={showModal}>
+      <Modal transparent visible={visible}>
         <View
           style={{ alignItems: 'stretch', alignContent: 'center', flex: 10 }}
         >
@@ -266,8 +265,8 @@ const GameScreen = ({ navigation }: any, viewModel: GameViewModel) => {
   }
 
   const onPointPress = (x: point) => {
-    if (selected == p0) {
-      if (x.isOccupied == 'player') {
+    if (selected === p0) {
+      if (x.isOccupied === 'player') {
         setSelected(x)
       } else {
         Alert.alert(
@@ -286,8 +285,8 @@ const GameScreen = ({ navigation }: any, viewModel: GameViewModel) => {
         )
       }
     } else {
-      if (selected.neighbor.includes(x) && x.isOccupied == 'no') {
-        if (x.isAnswered == false) {
+      if (selected.neighbor.includes(x) && x.isOccupied === 'no') {
+        if (x.isAnswered === false) {
           setNomor(getRandomInt(soalTes.length))
           setMovedTo(x)
           setVisible(true)
@@ -296,9 +295,9 @@ const GameScreen = ({ navigation }: any, viewModel: GameViewModel) => {
           x.isOccupied = 'player'
           setSelected(p0)
           if (
-            p1.isOccupied == 'player' &&
-            p2.isOccupied == 'player' &&
-            p3.isOccupied == 'player'
+            p1.isOccupied === 'player' &&
+            p2.isOccupied === 'player' &&
+            p3.isOccupied === 'player'
           ) {
             setWin(1)
             setIsConcluding(true)
@@ -306,9 +305,9 @@ const GameScreen = ({ navigation }: any, viewModel: GameViewModel) => {
           }
           botMove()
           if (
-            p13.isOccupied == 'bot' &&
-            p14.isOccupied == 'bot' &&
-            p15.isOccupied == 'bot'
+            p13.isOccupied === 'bot' &&
+            p14.isOccupied === 'bot' &&
+            p15.isOccupied === 'bot'
           ) {
             setWin(-1)
             setIsConcluding(true)
@@ -332,7 +331,7 @@ const GameScreen = ({ navigation }: any, viewModel: GameViewModel) => {
   }
 
   function onAnswer(option: String, x: number) {
-    if (option == soalTes[x].ans) {
+    if (option === soalTes[x].ans) {
       selected.isOccupied = 'no'
       movedTo.isOccupied = 'player'
       movedTo.isAnswered = true
@@ -340,9 +339,9 @@ const GameScreen = ({ navigation }: any, viewModel: GameViewModel) => {
       setMovedTo(p0)
       setVisible(false)
       if (
-        p1.isOccupied == 'player' &&
-        p2.isOccupied == 'player' &&
-        p3.isOccupied == 'player'
+        p1.isOccupied === 'player' &&
+        p2.isOccupied === 'player' &&
+        p3.isOccupied === 'player'
       ) {
         setWin(1)
         setIsConcluding(true)
@@ -350,9 +349,9 @@ const GameScreen = ({ navigation }: any, viewModel: GameViewModel) => {
       }
       botMove()
       if (
-        p13.isOccupied == 'bot' &&
-        p14.isOccupied == 'bot' &&
-        p15.isOccupied == 'bot'
+        p13.isOccupied === 'bot' &&
+        p14.isOccupied === 'bot' &&
+        p15.isOccupied === 'bot'
       ) {
         setWin(-1)
         setIsConcluding(true)
@@ -362,9 +361,9 @@ const GameScreen = ({ navigation }: any, viewModel: GameViewModel) => {
       setVisible(false)
       botMove()
       if (
-        p13.isOccupied == 'bot' &&
-        p14.isOccupied == 'bot' &&
-        p15.isOccupied == 'bot'
+        p13.isOccupied === 'bot' &&
+        p14.isOccupied === 'bot' &&
+        p15.isOccupied === 'bot'
       ) {
         setWin(-1)
         setIsConcluding(true)
