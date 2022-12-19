@@ -1,5 +1,12 @@
-import React from 'react'
-import { View, Text, ImageBackground, Button } from 'react-native'
+import React, { useEffect } from 'react'
+import {
+  View,
+  Text,
+  ImageBackground,
+  Button,
+  Alert,
+  BackHandler,
+} from 'react-native'
 import styles from '../assets/Style'
 
 const MenuScreen = ({ navigation }: any) => {
@@ -7,15 +14,40 @@ const MenuScreen = ({ navigation }: any) => {
   const diff = ['Easy', 'Normal', 'Hard']
   const [diffSelected, setDiffSelected] = React.useState(1)
 
+  useEffect(() => {
+    const backAction = () => {
+      Alert.alert('Hold on!', 'Are you sure you want to go exit?', [
+        {
+          text: 'Cancel',
+          onPress: () => null,
+          style: 'cancel',
+        },
+        { text: 'YES', onPress: () => BackHandler.exitApp() },
+      ])
+      return true
+    }
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction
+    )
+
+    return () => backHandler.remove()
+  }, [])
+
   const DiffAdd = () => {
     if (diffSelected < 3) {
       setDiffSelected(diffSelected + 1)
+    } else {
+      setDiffSelected(1)
     }
   }
 
   const DiffReduce = () => {
     if (diffSelected > 1) {
       setDiffSelected(diffSelected - 1)
+    } else {
+      setDiffSelected(3)
     }
   }
 

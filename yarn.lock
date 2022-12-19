@@ -10560,6 +10560,18 @@ yargs@^15.1.0, yargs@^15.3.1:
     y18n "^4.0.0"
     yargs-parser "^18.1.2"
 
+yd-react-native-countdown@^1.3.26:
+  version "1.3.26"
+  resolved "https://registry.yarnpkg.com/yd-react-native-countdown/-/yd-react-native-countdown-1.3.26.tgz#a131ea82bc824b8797c701145cf688d048b8954c"
+  integrity sha512-5Sn7QMaItSz/SIklyHstCNoZdGrX0/frXuIuUXKH5MkJQ16ykQuGDdDlFl70w8Ze6WHsrdQtZcAWq6F4+Ha8MQ==
+  dependencies:
+    yd-time-lib latest
+
+yd-time-lib@latest:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/yd-time-lib/-/yd-time-lib-1.0.4.tgz#bfa4ad749c164b8d986ea5e735b40ad0282f1b4a"
+  integrity sha512-j/c7op2tHuiSpzSAJX//cnlHG03i/334jqU2efGpkFQTEvFvpaGXAGP1CXvX9YDT3GKXpLti40p4wgf8rdFxKQ==
+
 yocto-queue@^0.1.0:
   version "0.1.0"
   resolved "https://registry.npmjs.org/yocto-queue/-/yocto-queue-0.1.0.tgz"

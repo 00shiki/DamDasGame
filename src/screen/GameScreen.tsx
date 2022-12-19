@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   View,
   Text,
@@ -7,6 +7,7 @@ import {
   TouchableHighlight,
   Alert,
   Modal,
+  BackHandler,
 } from 'react-native'
 import styles from '../assets/Style'
 import Board from '../components/Board'
@@ -16,6 +17,7 @@ import Player from '../components/Player'
 import Point from '../components/Point'
 import { pawn } from '../model/Pawn'
 import { point } from '../model/Point'
+import Countdown from 'yd-react-native-countdown'
 
 const p0: point = new point([], false, 'no')
 const p1: point = new point([], false, 'bot')
@@ -143,7 +145,6 @@ const GameScreen = ({ navigation, route }: any) => {
   const [isConcluding, setIsConcluding] = useState(false)
   const [win, setWin] = useState(0)
   const { diff } = route.params
-  /* const diff = 1 */
 
   const soalTes = soal[diff - 1]
 
@@ -151,6 +152,27 @@ const GameScreen = ({ navigation, route }: any) => {
     visible: boolean
     nomor: number
   }
+
+  useEffect(() => {
+    const backAction = () => {
+      Alert.alert('Hold on!', 'Are you sure you want to go back?', [
+        {
+          text: 'Cancel',
+          onPress: () => null,
+          style: 'cancel',
+        },
+        { text: 'YES', onPress: () => BackHandler.exitApp() },
+      ])
+      return true
+    }
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction
+    )
+
+    return () => backHandler.remove()
+  }, [])
 
   function GameReset() {
     p1.isOccupied = 'bot'
@@ -214,14 +236,38 @@ const GameScreen = ({ navigation, route }: any) => {
         >
           <Text style={styles.WinFont}>{condition[1]}</Text>
           <Text style={styles.WinFont}>{condition[2]}</Text>
-          <Button onPress={() => GameReset()} title='Main lagi'></Button>
+          <Button onPress={() => GameReset()} title='Main lagi' />
+          <Button
+            onPress={() => {
+              navigation.pop()
+            }}
+            title='Kembali'
+          />
         </View>
       </Modal>
     )
   }
 
+  const timesUp = () => {
+    setVisible(false)
+    botMove()
+    if (
+      p13.isOccupied === 'bot' &&
+      p14.isOccupied === 'bot' &&
+      p15.isOccupied === 'bot'
+    ) {
+      setWin(-1)
+      setIsConcluding(true)
+      WinScreen()
+    }
+
+    setSelected(p0)
+    setMovedTo(p0)
+  }
+
   const ScreenSoal = (x: soalProps) => {
     const [showModal, setShowModal] = useState(visible)
+
     return (
       <Modal transparent visible={visible}>
         <View
@@ -231,9 +277,13 @@ const GameScreen = ({ navigation, route }: any) => {
             source={require('./bg.png')}
             style={[styles.containerSoal, { flex: 7, borderRadius: 0 }]}
           >
-            <View style={styles.timeRemaining}>
-              <Text style={styles.timeRemainingFont}>00:10:00</Text>
-            </View>
+            <Countdown
+              from={10000}
+              to={0}
+              style={{ backgroundColor: '#ffffff88' }}
+              isRunning={true}
+              callback={() => timesUp()}
+            />
             <View style={styles.questions}>
               <Text style={styles.questionsFont}>{soalTes[nomor].soal}</Text>
             </View>
