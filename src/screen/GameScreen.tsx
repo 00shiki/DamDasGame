@@ -1,14 +1,12 @@
-import React, { ReactElement, ReactNode, useState } from 'react'
+import { ReactElement, ReactNode, useState } from 'react'
 import {
   View,
   Text,
   ImageBackground,
   Button,
-  Pressable,
   TouchableHighlight,
   Alert,
   Modal,
-  ViewComponent,
 } from 'react-native'
 import styles from '../assets/Style'
 import Board from '../components/Board'
@@ -18,6 +16,7 @@ import Player from '../components/Player'
 import Point from '../components/Point'
 import { pawn } from '../model/Pawn'
 import { point } from '../model/Point'
+import GameViewModel from './ViewModel'
 
 const p0: point = new point([], false, 'no')
 const p1: point = new point([], false, 'bot')
@@ -137,16 +136,14 @@ function PointCheck(x: point) {
   }
 }
 
-const GameScreen = () => {
-  const [visible, setVisible] = React.useState(false)
-  const [selected, setSelected] = React.useState(p0)
-  const [nomor, setNomor] = React.useState(0)
-  const [movedTo, setMovedTo] = React.useState(p0)
-  const [diff, setDiff] = React.useState(1)
-  const [diffSelected, setDiffSelected] = React.useState(1)
-  const [isNotSelected, setIsNotSelected] = React.useState(true)
-  const [isConcluding, setIsConcluding] = React.useState(false)
-  const [win, setWin] = React.useState(0)
+const GameScreen = ({ navigation }: any, viewModel: GameViewModel) => {
+  const [visible, setVisible] = useState(false)
+  const [selected, setSelected] = useState(p0)
+  const [nomor, setNomor] = useState(0)
+  const [movedTo, setMovedTo] = useState(p0)
+  const [isConcluding, setIsConcluding] = useState(false)
+  const [win, setWin] = useState(0)
+  const diff = viewModel.getDiff
 
   const soalTes = soal[diff - 1]
 
@@ -185,7 +182,6 @@ const GameScreen = () => {
     p11.isAnswered = false
     p12.isAnswered = false
 
-    setIsNotSelected(true)
     setIsConcluding(false)
   }
 
@@ -224,101 +220,10 @@ const GameScreen = () => {
     )
   }
 
-  const DiffSelection = () => {
-    const diffStyle = [styles.Easy, styles.Normal, styles.Hard]
-    const diff = ['Easy', 'Normal', 'Hard']
-
-    const DiffAdd = () => {
-      var x = diffSelected
-      if (x < 3) {
-        x += 1
-        setDiffSelected(x)
-      } else {
-        setDiffSelected(x)
-      }
-    }
-
-    const DiffReduce = () => {
-      var x = diffSelected
-      if (x > 1) {
-        x -= 1
-        setDiffSelected(x)
-      } else {
-        setDiffSelected(x)
-      }
-    }
-
-    function Diff() {
-      if (diffSelected == 1) {
-        return <Text style={[diffStyle[0], { margin: 20 }]}>{diff[0]}</Text>
-      } else if (diffSelected == 2) {
-        return <Text style={[diffStyle[1], { margin: 20 }]}>{diff[1]}</Text>
-      } else {
-        return <Text style={[diffStyle[2], { margin: 20 }]}>{diff[2]}</Text>
-      }
-    }
-
-    function Selecting() {
-      setDiff(diffSelected)
-      setIsNotSelected(false)
-    }
-
-    return (
-      <Modal transparent visible={isNotSelected}>
-        <View
-          style={{ alignItems: 'stretch', alignContent: 'center', flex: 10 }}
-        >
-          <ImageBackground
-            source={require('./bg.png')}
-            style={[
-              styles.containerSoal,
-              { flex: 5, borderRadius: 0, alignContent: 'center' },
-            ]}
-          >
-            <View
-              style={[{ flexWrap: 'nowrap', flex: 5, marginVertical: 100 }]}
-            >
-              <Text
-                style={[
-                  { fontSize: 20, textAlign: 'center', marginBottom: 50 },
-                  styles.Diff,
-                ]}
-              >
-                Silahkan pilih tingkat kesulitan
-              </Text>
-              <View style={{ marginHorizontal: 130 }}>
-                <Button
-                  title='+'
-                  color={'#ff6600'}
-                  onPress={() => DiffAdd()}
-                ></Button>
-              </View>
-              {Diff()}
-              <View style={{ marginHorizontal: 130, marginBottom: 50 }}>
-                <Button
-                  title='-'
-                  color={'#ff6600'}
-                  onPress={() => DiffReduce()}
-                ></Button>
-              </View>
-              <View style={{ marginHorizontal: 80 }}>
-                <Button
-                  title='Mulai main'
-                  color={'#00aa00'}
-                  onPress={() => Selecting()}
-                ></Button>
-              </View>
-            </View>
-          </ImageBackground>
-        </View>
-      </Modal>
-    )
-  }
-
   const ScreenSoal = (x: soalProps) => {
-    const [showModal, setShowModal] = React.useState(visible)
+    const [showModal, setShowModal] = useState(visible)
     return (
-      <Modal transparent visible={visible}>
+      <Modal transparent visible={showModal}>
         <View
           style={{ alignItems: 'stretch', alignContent: 'center', flex: 10 }}
         >
@@ -472,7 +377,6 @@ const GameScreen = () => {
     <ImageBackground resizeMode={'stretch'} source={require('./bg_board.png')}>
       <ScreenSoal visible={visible} nomor={nomor}></ScreenSoal>
       <WinScreen></WinScreen>
-      <DiffSelection></DiffSelection>
       <Text style={[styles.PlayerWindow, styles.PlayerText]}>Computer</Text>
       <View style={[styles.Board]}>
         <View style={place[0]}>
