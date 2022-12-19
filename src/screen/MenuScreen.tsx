@@ -1,34 +1,36 @@
+import React from 'react'
 import { View, Text, ImageBackground, Button } from 'react-native'
 import styles from '../assets/Style'
 import GameViewModel from './ViewModel'
 
 const MenuScreen = ({ navigation }: any, viewModel: GameViewModel) => {
+  const [option, setOption] = React.useState(1)
   const diffStyle = [styles.Easy, styles.Normal, styles.Hard]
+  var diffSelected = 2
   const diff = ['Easy', 'Normal', 'Hard']
-  let diffSelected = viewModel.getDiff
 
   const DiffAdd = () => {
     if (diffSelected < 3) {
       diffSelected += 1
-      viewModel.setDiff(diffSelected)
+      setOption(diffSelected)
     } else {
-      viewModel.setDiff(diffSelected)
+      setOption(diffSelected)
     }
   }
 
   const DiffReduce = () => {
     if (diffSelected > 1) {
       diffSelected -= 1
-      viewModel.setDiff(diffSelected)
+      setOption(diffSelected)
     } else {
-      viewModel.setDiff(diffSelected)
+      setOption(diffSelected)
     }
   }
 
   function Diff() {
-    if (diffSelected == 1) {
+    if (option == 1) {
       return <Text style={[diffStyle[0], { margin: 20 }]}>{diff[0]}</Text>
-    } else if (diffSelected == 2) {
+    } else if (option == 2) {
       return <Text style={[diffStyle[1], { margin: 20 }]}>{diff[1]}</Text>
     } else {
       return <Text style={[diffStyle[2], { margin: 20 }]}>{diff[2]}</Text>
@@ -48,14 +50,14 @@ const MenuScreen = ({ navigation }: any, viewModel: GameViewModel) => {
               styles.Diff,
             ]}
           >
-            Silahkan pilih tingkat kesulitan
+            Silahkan Pilih Tingkat Kesulitan
           </Text>
           <View style={{ marginHorizontal: 130 }}>
             <Button
               title='+'
               color={'#ff6600'}
               onPress={() => {
-                DiffAdd
+                DiffAdd()
               }}
             ></Button>
           </View>
@@ -65,7 +67,7 @@ const MenuScreen = ({ navigation }: any, viewModel: GameViewModel) => {
               title='-'
               color={'#ff6600'}
               onPress={() => {
-                DiffReduce
+                DiffReduce()
               }}
             ></Button>
           </View>

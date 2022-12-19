@@ -1,5 +1,5 @@
 class GameViewModel {
-  private diff: number
+  private diff: number = 1
 
   constructor() {
     this.diff = 1
