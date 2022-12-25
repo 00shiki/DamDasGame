@@ -18,6 +18,32 @@ import Point from '../components/Point'
 import { pawn } from '../model/Pawn'
 import { point } from '../model/Point'
 import Countdown from 'yd-react-native-countdown'
+import MathJax from 'react-native-mathjax'
+
+const mmlOptions = {
+  messageStyle: 'none',
+  extensions: ['tex2jax.js'],
+  jax: ['input/TeX', 'output/HTML-CSS'],
+  tex2jax: {
+    inlineMath: [
+      ['$', '$'],
+      ['\\(', '\\)'],
+    ],
+    displayMath: [
+      ['$$', '$$'],
+      ['\\[', '\\]'],
+    ],
+    processEscapes: true,
+  },
+  TeX: {
+    extensions: [
+      'AMSmath.js',
+      'AMSsymbols.js',
+      'noErrors.js',
+      'noUndefined.js',
+    ],
+  },
+}
 
 const p0: point = new point([], false, 'no')
 const p1: point = new point([], false, 'bot')
@@ -278,34 +304,34 @@ const GameScreen = ({ navigation, route }: any) => {
             style={[styles.containerSoal, { flex: 7, borderRadius: 0 }]}
           >
             <Countdown
-              from={10000}
+              from={15000}
               to={0}
               style={{ backgroundColor: '#ffffff88' }}
               isRunning={true}
               callback={() => timesUp()}
             />
             <View style={styles.questions}>
-              <Text style={styles.questionsFont}>{soalTes[nomor].soal}</Text>
+              <MathJax html={soalTes[nomor].soal} />
             </View>
             <View style={styles.answers}>
               <View style={styles.answersOption1}>
                 <TouchableHighlight onPress={() => onAnswer('a1', x.nomor)}>
-                  <Text style={styles.answerFont}>{soalTes[nomor].a1}</Text>
+                  <MathJax html={soalTes[nomor].a1} />
                 </TouchableHighlight>
               </View>
               <View style={styles.answersOption2}>
                 <TouchableHighlight onPress={() => onAnswer('a2', x.nomor)}>
-                  <Text style={styles.answerFont}>{soalTes[nomor].a2}</Text>
+                  <MathJax html={soalTes[nomor].a2} />
                 </TouchableHighlight>
               </View>
               <View style={styles.answersOption3}>
                 <TouchableHighlight onPress={() => onAnswer('a3', x.nomor)}>
-                  <Text style={styles.answerFont}>{soalTes[nomor].a3}</Text>
+                  <MathJax html={soalTes[nomor].a3} />
                 </TouchableHighlight>
               </View>
               <View style={styles.answersOption4}>
                 <TouchableHighlight onPress={() => onAnswer('a4', x.nomor)}>
-                  <Text style={styles.answerFont}>{soalTes[nomor].a4}</Text>
+                  <MathJax html={soalTes[nomor].a4} />
                 </TouchableHighlight>
               </View>
             </View>
